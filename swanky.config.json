@@ -4,6 +4,13 @@
     "polkadotPalletVersions": "polkadot-v0.9.27",
     "supportedInk": "v3.3.1"
   },
+  "contracts": [
+    "astar_sns",
+    {
+      "name": "astar_sns",
+      "address": "5H2GdrdnHt7kRgBhzUwSxfdpVDRaqxcZNHAmH45rzgFUghLc"
+    }
+  ],
   "accounts": [
     {
       "alias": "alice",
@@ -16,6 +23,12 @@
       "mnemonic": "//Bob",
       "isDev": true,
       "address": "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty"
+    },
+    {
+      "mnemonic": "pig crazy surprise hole sibling vault crater occur account struggle orange bike",
+      "isDev": true,
+      "alias": "honganji",
+      "address": "5FqLm1FmBVfbgC5H3fCoQkjjjh3HghHaTKwyCvCgeLZr5hcB"
     }
   ],
   "networks": {
