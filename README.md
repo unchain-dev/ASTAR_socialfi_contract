@@ -59,16 +59,3 @@ To test contract, run commend below in terminal!
 ```
 cargo +nightly-2022-08-15 test -- --nocapture
 ```
-
-The result looks just like this in terminal!
-
-```
-message_list_alice_bob: [Message { message: "Sorry Bro, I can't go today.", sender_id: AccountId([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]), created_time: "12:30" }, Message { message: "Why don't we go there tomorrow?", sender_id: AccountId([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]), created_time: "12:33" }, Message { message: "Hey, charlie will come!", sender_id: AccountId([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]), created_time: "12:35" }, Message { message: "He seems so muscular, so he would teach us.", sender_id: AccountId([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]), created_time: "12:36" }, Message { message: "Why don't we go there tomorrow?", sender_id: AccountId([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]), created_time: "12:37" }]
-
-last_message_alice_bob: Message { message: "I'm so looking forward that!", sender_id: AccountId([2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]), created_time: "12:38" }
-
-message_list_alice_charlie: [Message { message: "Hey bro! Tomorrow I and Bob go to gym. Don't you join us?", sender_id: AccountId([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]), created_time: "12:34" }]
-test astar_sns::tests::test_message_fn_works ... ok
-
-test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
-```
