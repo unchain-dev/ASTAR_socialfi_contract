@@ -34,7 +34,25 @@ rustup target add wasm32-unknown-unknown --toolchain nightly-2022-08-15
 rustup component add rust-src --toolchain nightly-2022-08-15
 ```
 
-`4. Test!`
+`4. Install ASTAR node`
+
+Go to https://github.com/AstarNetwork/Astar/releases/tag/v4.24.0 and download the file `astar-collator-v4.24.0-[YOUR_OS]-x86_64.tar.gz`.
+
+Then, expand the file using
+
+```
+tar xvf astar-collator-v4.24.0-[YOUR_OS]-x86
+```
+
+You can set up a local node using
+
+```
+./astar-collator --dev
+```
+
+You can view the block explorer for this local node [here](https://polkadot.js.org/apps/?rpc=ws%3A%2F%2F127.0.0.1%3A9944#/explorer).
+
+`5. Test!`
 
 To test contract, run commend below in terminal!
 
@@ -54,5 +72,3 @@ test astar_sns::tests::test_message_fn_works ... ok
 
 test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
 ```
-
-There are a lot of tests so most of them are comment out. If you wanna see other test's result, you should just undo comment out of them and run commend upward!
