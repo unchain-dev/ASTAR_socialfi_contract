@@ -52,10 +52,21 @@ You can set up a local node using
 
 You can view the block explorer for this local node [here](https://polkadot.js.org/apps/?rpc=ws%3A%2F%2F127.0.0.1%3A9944#/explorer).
 
-`5. Test!`
+`5. Compile contract`
 
-To test contract, run commend below in terminal!
+Build the contract with
+
+```
+cargo +nightly-2022-08-15 contract build
+```
+
+`6. Test!`
+
+To test the contract, first uncomment line 21 of `lib.rs`.
+Then run commend below in terminal!
 
 ```
 cargo +nightly-2022-08-15 test -- --nocapture
 ```
+
+Make sure to comment this line out again whenever you make changes in your contract and need to recompile.
