@@ -14,9 +14,11 @@ mod astar_socialfi {
 
     use ink_env::debug_println;
     use ink_lang::codegen::Env;
+    use ink_prelude::string::String;
     use ink_prelude::vec::Vec;
     use openbrush::storage::Mapping;
-    use openbrush::test_utils::accounts;
+
+    // use openbrush::test_utils::accounts; // uncomment for testing
 
     pub use crate::follow::*;
     pub use crate::message::*;
