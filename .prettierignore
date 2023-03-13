@@ -1,0 +1,8 @@
+node_modules
+.vscode
+
+dist
+typechain-types
+coverage*
+
+package.json
