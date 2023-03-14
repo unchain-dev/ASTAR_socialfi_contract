@@ -1,7 +1,7 @@
 import { ApiPromise } from '@polkadot/api';
 import { ContractPromise } from '@polkadot/api-contract';
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
-import { Dispatch } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
 import abi from '../metadata.json';
 
@@ -33,7 +33,7 @@ type PropsCP = {
 // type for getProfileForHome function
 type PropsGPFH = {
   api: ApiPromise;
-  userId: string;
+  userId: string | undefined;
   setImgUrl: Dispatch<React.SetStateAction<string>>;
 };
 
@@ -96,7 +96,7 @@ const imageUrlForUnknown = process.env.NEXT_PUBLIC_UNKNOWN_IMAGE_URL as string;
 
 // check if already create profile in contract function
 export const checkCreatedInfo = async (props: PropsCCI) => {
-  const contract = new ContractPromise(props.api, abi, contractAddress);
+  const contract = new ContractPromise(props.api!, abi, contractAddress);
   const { gasConsumed, result, output } = await contract.query.checkCreatedInfo(
     '',
     {
@@ -106,7 +106,7 @@ export const checkCreatedInfo = async (props: PropsCCI) => {
     props.userId,
   );
   if (output !== undefined && output !== null) {
-    props.setIsCreatedProfile(output.toHuman());
+    props.setIsCreatedProfile(!output.toHuman());
   }
 };
 
@@ -117,16 +117,14 @@ export const createProfile = async (props: PropsCP) => {
   const contract = new ContractPromise(props.api!, abi, contractAddress);
   const performingAccount = props.actingAccount;
   const injector = await web3FromSource(performingAccount.meta.source);
-  const create_profile = await contract.tx.createProfile({
+  const createProfile = await contract.tx.createProfile({
     value: 0,
     gasLimit: 18750000000,
   });
   if (injector !== undefined) {
-    create_profile.signAndSend(
-      performingAccount.address,
-      { signer: injector.signer },
-      (result) => {},
-    );
+    createProfile.signAndSend(performingAccount.address, {
+      signer: injector.signer,
+    });
   }
 };
 
@@ -200,7 +198,9 @@ export const getProfileForMessage = async (props: PropsGPFM) => {
     props.setFriendList(
       output.toHuman()?.friendList == null ? [] : output.toHuman()?.friendList,
     );
-    props.setProfile(output.toHuman());
+    props.setProfile(
+      output.toHuman() as SetStateAction<ProfileType | undefined>,
+    );
   }
 };
 
@@ -218,7 +218,6 @@ export const getSimpleProfileForMessage = async (props: PropsGSPFM) => {
   if (output !== undefined && output !== null) {
     return output.toHuman();
   }
-  return;
 };
 
 // follow another account function
@@ -235,11 +234,7 @@ export const follow = async (props: PropsF) => {
     props.followedId,
   );
   if (injector !== undefined) {
-    follow.signAndSend(
-      performingAccount!.address,
-      { signer: injector.signer },
-      (result) => {},
-    );
+    follow.signAndSend(performingAccount!.address, { signer: injector.signer });
   }
 };
 
@@ -248,7 +243,7 @@ export const setProfileInfo = async (props: PropSPI) => {
   const contract = new ContractPromise(props.api!, abi, contractAddress!);
   const performingAccount = props.actingAccount;
   const injector = await web3FromSource(performingAccount!.meta.source);
-  const set_profile_info = await contract.tx.setProfileInfo(
+  const setProfileInfo = await contract.tx.setProfileInfo(
     {
       value: 0,
       gasLimit: 187500000000,
@@ -257,11 +252,9 @@ export const setProfileInfo = async (props: PropSPI) => {
     props.imgUrl,
   );
   if (injector !== undefined) {
-    set_profile_info.signAndSend(
-      performingAccount!.address,
-      { signer: injector.signer },
-      (result) => {},
-    );
+    setProfileInfo.signAndSend(performingAccount!.address, {
+      signer: injector.signer,
+    });
   }
 };
 
@@ -277,10 +270,9 @@ export const getFollowingList = async (props: PropsGFIL) => {
     props.userId,
   );
   if (output !== undefined && output !== null) {
-    props.setFollowingList(output.toHuman());
+    props.setFollowingList(output.toHuman() as SetStateAction<string[]>);
     console.log(output.toHuman());
   }
-  return;
 };
 
 // get follower list function
@@ -295,7 +287,6 @@ export const getFollowerList = async (props: PropsGFEL) => {
     props.userId,
   );
   if (output !== undefined && output !== null) {
-    props.setFollowerList(output.toHuman());
+    props.setFollowerList(output.toHuman() as SetStateAction<string[]>);
   }
-  return;
 };

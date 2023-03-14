@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { ApiPromise } from '@polkadot/api';
 import type { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import React, { useEffect, useState } from 'react';
@@ -34,41 +35,41 @@ export default function home() {
 
   useEffect(() => {
     connectToContract({
-      api: api,
-      accountList: accountList,
+      api,
+      accountList,
       actingAccount: actingAccount!,
-      isSetup: isSetup,
-      setApi: setApi,
-      setAccountList: setAccountList,
+      isSetup,
+      setApi,
+      setAccountList,
       setActingAccount: setActingAccount!,
-      setIsSetup: setIsSetup,
+      setIsSetup,
     });
     if (!isSetup) return;
     getProfileForHome({
       api: api!,
-      userId: actingAccount?.address!,
-      setImgUrl: setImgUrl,
+      userId: actingAccount?.address,
+      setImgUrl,
     });
     balanceOf({
-      api: api,
+      api,
       actingAccount: actingAccount!,
-      setBalance: setBalance,
+      setBalance,
     });
-    getGeneralPost({ api: api!, setGeneralPostList: setGeneralPostList });
+    getGeneralPost({ api: api!, setGeneralPostList });
     if (isDistributed) return;
     distributeReferLikes({
-      api: api,
+      api,
       actingAccount: actingAccount!,
     });
     setIsDistributed(true);
     if (isCreatedFnRun) return;
     checkCreatedInfo({
-      api: api,
-      userId: actingAccount?.address!,
-      setIsCreatedProfile: setIsCreatedProfile,
+      api,
+      userId: actingAccount?.address,
+      setIsCreatedProfile,
     });
     if (isCreatedProfile) return;
-    createProfile({ api: api, actingAccount: actingAccount! });
+    createProfile({ api, actingAccount: actingAccount! });
     setIsCreatedFnRun(true);
   });
 
@@ -100,6 +101,7 @@ export default function home() {
               postId={post.postId}
               actingAccount={actingAccount}
               api={api}
+              key={post}
             />
           ))}
         </div>

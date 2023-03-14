@@ -1,7 +1,7 @@
 import { ApiPromise } from '@polkadot/api';
 import { ContractPromise } from '@polkadot/api-contract';
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
-import { Dispatch } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
 import abi from '../metadata.json';
 
@@ -36,7 +36,7 @@ export const balanceOf = async (props: PropsBO) => {
     props.actingAccount.address,
   );
   if (output !== undefined && output !== null) {
-    props.setBalance(output.toHuman()?.toString());
+    props.setBalance(output.toHuman()?.toString() as SetStateAction<string>);
   }
 };
 
@@ -53,11 +53,9 @@ export const transfer = async (props: PropsTF) => {
     props.amount,
   );
   if (injector !== undefined) {
-    transfer.signAndSend(
-      performingAccount.address,
-      { signer: injector.signer },
-      (result) => {},
-    );
+    transfer.signAndSend(performingAccount.address, {
+      signer: injector.signer,
+    });
   }
 };
 
@@ -71,10 +69,8 @@ export const distributeReferLikes = async (props: PropsDRL) => {
     gasLimit: 31518000000,
   });
   if (injector !== undefined) {
-    transfer.signAndSend(
-      performingAccount.address,
-      { signer: injector.signer },
-      (result) => {},
-    );
+    transfer.signAndSend(performingAccount.address, {
+      signer: injector.signer,
+    });
   }
 };

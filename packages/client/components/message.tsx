@@ -2,8 +2,8 @@ import Image from 'next/image';
 import React from 'react';
 
 export default function Message(props: any) {
-  const is_me = props.senderId == props.account_id;
-  return is_me ? (
+  const isMe = props.senderId === props.account_id;
+  return isMe ? (
     <div className="w-full justify-end items-end flex mt-3 mb-1">
       <div className="flex-row items-end flex">
         <div className="mr-1">{props.time}</div>
@@ -12,7 +12,7 @@ export default function Message(props: any) {
             <div className="bg-blue-500 py-1 px-3 rounded max-w-[230px]">
               <div>{props.message}</div>
             </div>
-            {is_me ? (
+            {isMe ? (
               <div className="border-t-transparent border-b-[10px] border-b-transparent border-l-[20px] border-l-blue-500"></div>
             ) : null}
           </div>

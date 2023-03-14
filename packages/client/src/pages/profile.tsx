@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { ApiPromise } from '@polkadot/api';
 import type { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import React, { useEffect, useState } from 'react';
@@ -37,50 +38,50 @@ export default function profile(props: any) {
 
   useEffect(() => {
     connectToContract({
-      api: api,
-      accountList: accountList,
+      api,
+      accountList,
       actingAccount: actingAccount!,
-      isSetup: isSetup,
-      setApi: setApi,
-      setAccountList: setAccountList,
+      isSetup,
+      setApi,
+      setAccountList,
       setActingAccount: setActingAccount!,
-      setIsSetup: setIsSetup,
+      setIsSetup,
     });
     if (!isSetup) return;
     getProfileForProfile({
-      api: api,
+      api,
       userId: actingAccount?.address,
-      setImgUrl: setImgUrl,
-      setName: setName,
+      setImgUrl,
+      setName,
     });
     getIndividualPost({
-      api: api,
-      actingAccount: actingAccount,
-      setIndividualPostList: setIndividualPostList,
+      api,
+      actingAccount,
+      setIndividualPostList,
     });
     getFollowingList({
-      api: api,
+      api,
       userId: actingAccount?.address,
-      setFollowingList: setFollowingList,
+      setFollowingList,
     });
     getFollowerList({
-      api: api,
+      api,
       userId: actingAccount?.address,
-      setFollowerList: setFollowerList,
+      setFollowerList,
     });
     balanceOf({
-      api: api,
+      api,
       actingAccount: actingAccount!,
-      setBalance: setBalance,
+      setBalance,
     });
     if (isCreatedFnRun) return;
     checkCreatedInfo({
-      api: api,
-      userId: actingAccount?.address!,
-      setIsCreatedProfile: setIsCreatedProfile,
+      api,
+      userId: actingAccount?.address,
+      setIsCreatedProfile,
     });
     if (isCreatedProfile) return;
-    createProfile({ api: api, actingAccount: actingAccount! });
+    createProfile({ api, actingAccount: actingAccount! });
     setIsCreatedFnRun(true);
   });
 
@@ -123,6 +124,7 @@ export default function profile(props: any) {
               num_of_likes={post.numOfLikes}
               user_img_url={imgUrl}
               post_img_url={post.imgUrl}
+              key={post}
             />
           ))}
         </div>

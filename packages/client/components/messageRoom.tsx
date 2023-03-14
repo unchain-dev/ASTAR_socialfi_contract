@@ -45,12 +45,12 @@ export default function MessageRoom(props: Props) {
           setShowMessageModal={props.setShowMessageModal}
         />
         <div className="flex-1 overflow-scroll w-full">
-          {props.messageList.map((message) => (
-            <div>
+          {props.messageList.map((message, i) => (
+            <div key={i}>
               <Message
                 account_id={props.myUserId}
                 img_url={
-                  props.myUserId == message.senderId
+                  props.myUserId === message.senderId
                     ? props.myImgUrl
                     : props.userImgUrl
                 }

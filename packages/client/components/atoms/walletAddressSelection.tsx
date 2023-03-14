@@ -28,7 +28,9 @@ export const WalletAddressSelection: FC<Props> = (props: Props) => {
         >
           {props.idList !== undefined ? (
             props.idList.map((id, index) => (
-              <option value={index}>{id.address}</option>
+              <option value={index} key={index}>
+                {id.address}
+              </option>
             ))
           ) : (
             <option className="text-ellipsis overflow-hidden">

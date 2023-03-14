@@ -1,7 +1,7 @@
 import { ApiPromise } from '@polkadot/api';
 import { ContractPromise } from '@polkadot/api-contract';
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
-import { Dispatch } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
 import abi from '../metadata.json';
 
@@ -55,7 +55,7 @@ export const releasePost = async (props: PropsRP) => {
   const performingAccount = props.actingAccount;
   const injector = await web3FromSource(performingAccount.meta.source);
   const date = new Date();
-  const release_post = await contract.tx.releasePost(
+  const releasePost = await contract.tx.releasePost(
     {
       value: 0,
       gasLimit: 50000000000,
@@ -70,11 +70,9 @@ export const releasePost = async (props: PropsRP) => {
     props.imgUrl,
   );
   if (injector !== undefined) {
-    release_post.signAndSend(
-      performingAccount.address,
-      { signer: injector.signer },
-      (result) => {},
-    );
+    releasePost.signAndSend(performingAccount.address, {
+      signer: injector.signer,
+    });
   }
 };
 
@@ -90,7 +88,11 @@ export const getGeneralPost = async (props: PropsGGP) => {
     1,
   );
   if (output !== undefined && output !== null) {
-    props.setGeneralPostList(output.toHuman() == null ? [] : output.toHuman());
+    props.setGeneralPostList(
+      output.toHuman() == null
+        ? []
+        : (output.toHuman() as SetStateAction<PostType[]>),
+    );
   }
 };
 
@@ -100,7 +102,7 @@ export const addLikes = async (props: PropsAL) => {
   const contract = new ContractPromise(props.api, abi, contractAddress);
   const performingAccount = props.actingAccount;
   const injector = await web3FromSource(performingAccount!.meta.source);
-  const add_likes = await contract.tx.addLikes(
+  const addLikes = await contract.tx.addLikes(
     {
       value: 0,
       gasLimit: 18850000000,
@@ -108,11 +110,9 @@ export const addLikes = async (props: PropsAL) => {
     props.postId,
   );
   if (injector !== undefined) {
-    add_likes.signAndSend(
-      performingAccount!.address,
-      { signer: injector.signer },
-      (result) => {},
-    );
+    addLikes.signAndSend(performingAccount!.address, {
+      signer: injector.signer,
+    });
   }
 };
 
@@ -131,7 +131,9 @@ export const getIndividualPost = async (props: PropsGIP) => {
     );
   if (output !== undefined && output !== null) {
     props.setIndividualPostList(
-      output.toHuman() == null ? [] : output.toHuman(),
+      output.toHuman() == null
+        ? []
+        : (output.toHuman() as SetStateAction<PostType[]>),
     );
   }
 };

@@ -21,12 +21,13 @@ const Footer: FC<Props> = (props: Props) => {
   ];
   return (
     <div className="text-xl bg-[#D9D9D9] h-20 space-x-28 flex-row items-center justify-center flex px-10">
-      {screenInfoList.map((screenInfo) => (
+      {screenInfoList.map((screenInfo, i) => (
         <BottomLogo
           selectedScreen={props.selectedScreen}
           screenName={screenInfo.name}
           setSelectedScreen={props.setSelectedScreen}
           icon={screenInfo.icon}
+          key={i}
         />
       ))}
     </div>

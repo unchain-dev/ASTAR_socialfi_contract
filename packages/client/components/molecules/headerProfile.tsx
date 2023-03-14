@@ -31,7 +31,10 @@ const HeaderProfile: FC<Props> = (props) => {
         >
           {props.idList ? (
             props.idList.map((id, index) => (
-              <option value={index}> {id.address} </option>
+              <option value={index} key={index}>
+                {' '}
+                {id.address}{' '}
+              </option>
             ))
           ) : (
             <option className="text-ellipsis overflow-hidden">

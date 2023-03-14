@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { ApiPromise } from '@polkadot/api';
 import type { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
-import React, { useEffect, useState } from 'react';
+import React, { SetStateAction, useEffect, useState } from 'react';
 
 import BottomNavigation from '../../components/bottomNavigation';
 import MessageMember from '../../components/message_member';
@@ -40,35 +41,35 @@ export default function message() {
   const [balance, setBalance] = useState<string>('0');
 
   useEffect(() => {
-    //connect to contract
+    // connect to contract
     connectToContract({
-      api: api,
-      accountList: accountList,
+      api,
+      accountList,
       actingAccount: actingAccount!,
-      isSetup: isSetup,
-      setApi: setApi,
-      setAccountList: setAccountList,
+      isSetup,
+      setApi,
+      setAccountList,
       setActingAccount: setActingAccount!,
-      setIsSetup: setIsSetup,
+      setIsSetup,
     });
     if (!isSetup) return;
 
     // get profile
     getProfileForMessage({
-      api: api,
+      api,
       userId: actingAccount?.address,
-      setImgUrl: setImgUrl,
-      setMyImgUrl: setMyImgUrl,
-      setFriendList: setFriendList,
-      setProfile: setProfile,
+      setImgUrl,
+      setMyImgUrl,
+      setFriendList,
+      setProfile,
     });
     // create message member list UI
     createMessageMemberList();
 
     balanceOf({
-      api: api,
+      api,
       actingAccount: actingAccount!,
-      setBalance: setBalance,
+      setBalance,
     });
 
     // check if already created profile in frontend
@@ -76,34 +77,34 @@ export default function message() {
 
     // check if already created profile in contract
     checkCreatedInfo({
-      api: api,
+      api,
       userId: actingAccount?.address,
-      setIsCreatedProfile: setIsCreatedProfile,
+      setIsCreatedProfile,
     });
     if (isCreatedProfile) return;
     // create profile
-    createProfile({ api: api, actingAccount: actingAccount! });
+    createProfile({ api, actingAccount: actingAccount! });
     setIsCreatedFnRun(true);
   });
 
   // create message member list UI
   const createMessageMemberList = async () => {
-    let memberList: Array<any> = new Array();
-    for (var i = 0; i < friendList.length; i++) {
-      let friendProfile = await getSimpleProfileForMessage({
-        api: api,
+    const memberList: SetStateAction<never[]> = [];
+    for (let i = 0; i < friendList.length; i++) {
+      const friendProfile = await getSimpleProfileForMessage({
+        api,
         userId: friendList[i],
       });
-      let idList = profile?.messageListIdList;
+      const idList = profile?.messageListIdList;
       let lastMessage: string;
-      let messageList = await getMessageList({
-        api: api,
+      const messageList = await getMessageList({
+        api,
         id: idList![i],
       });
       if (idList !== null) {
-        lastMessage = await getLastMessage({ api: api, id: idList![i] });
+        lastMessage = await getLastMessage({ api, id: idList![i] });
       }
-      let memberListFactor = (
+      const memberListFactor = (
         <MessageMember
           name={friendProfile?.name}
           img_url={friendProfile?.imgUrl}

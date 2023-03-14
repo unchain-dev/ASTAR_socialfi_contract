@@ -12,10 +12,6 @@ module.exports = {
     ecmaVersion: 12,
   },
   rules: {
-    'node/no-unsupported-features/es-syntax': [
-      'error',
-      { ignores: ['modules'] },
-    ],
     'node/no-unpublished-require': ['warn'],
     'node/no-unpublished-import': ['warn'],
     'node/no-missing-import': ['warn'],

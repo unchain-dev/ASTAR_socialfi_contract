@@ -7,6 +7,10 @@
     "plugin:react-hooks/recommended"
   ],
   "rules": {
+    "node/no-unsupported-features/es-syntax": [
+      "error",
+      { "ignores": ["modules"] }
+    ],
     "import/order": [
       "error",
       {
@@ -14,6 +18,8 @@
           "order": "asc"
         }
       }
-    ]
+    ],
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off"
   }
 }
