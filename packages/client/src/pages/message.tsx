@@ -4,11 +4,11 @@ import type { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import React, { SetStateAction, useEffect, useState } from 'react';
 
 import BottomNavigation from '../../components/bottomNavigation';
-import MessageMember from '../../components/message_member';
 import MessageRoom from '../../components/messageRoom';
+import MessageMember from '../../components/message_member';
 import TopBar from '../../components/topBar';
-import { connectToContract } from '../../hooks/connect';
 import { balanceOf } from '../../hooks/FT';
+import { connectToContract } from '../../hooks/connect';
 import { getLastMessage, getMessageList } from '../../hooks/messageFunction';
 import {
   checkCreatedInfo,

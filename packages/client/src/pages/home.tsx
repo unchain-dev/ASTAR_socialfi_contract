@@ -8,8 +8,8 @@ import BottomNavigation from '../../components/bottomNavigation';
 import Post from '../../components/post';
 import PostModal from '../../components/postModal';
 import TopBar from '../../components/topBar';
-import { connectToContract } from '../../hooks/connect';
 import { balanceOf, distributeReferLikes, transfer } from '../../hooks/FT';
+import { connectToContract } from '../../hooks/connect';
 import type { PostType } from '../../hooks/postFunction';
 import { getGeneralPost } from '../../hooks/postFunction';
 import {

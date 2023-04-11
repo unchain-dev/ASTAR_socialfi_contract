@@ -8,8 +8,8 @@ import Post from '../../components/post';
 import ProfileSettingModal from '../../components/profileSettingModal';
 import ProfileSubTopBar from '../../components/profileSubTopBar';
 import TopBar from '../../components/topBar';
-import { connectToContract } from '../../hooks/connect';
 import { balanceOf } from '../../hooks/FT';
+import { connectToContract } from '../../hooks/connect';
 import type { PostType } from '../../hooks/postFunction';
 import { getIndividualPost } from '../../hooks/postFunction';
 import {
