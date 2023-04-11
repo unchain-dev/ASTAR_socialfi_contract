@@ -217,13 +217,14 @@ mod astar_sns_contract {
                 .set_profile_info("Tony Stark".to_string(), "https//ff...".to_string());
 
             // プロフィール情報の確認
-            debug_println!(
-                "profile_list: {:?}",
+            assert_eq!(
                 astar_sns_contract
                     .profile_map
                     .get(&alice_account_id)
                     .unwrap()
-            );
+                    .user_id,
+                alice_account_id
+            )
         }
 
         // 投稿機能の確認
@@ -254,10 +255,10 @@ mod astar_sns_contract {
                 .post_map
                 .get(&(astar_sns_contract.post_map_counter - 1))
                 .unwrap();
-            debug_println!("post :{:?}\n", post_info);
+            assert_eq!("Today, it was so rainy!", post_info.description);
         }
 
-        // ユーザー全体の投稿を取得機能のテスト
+        // ユーザー全体の投稿を取得する機能のテスト
         #[ink::test]
         fn test_general_post_get_fn_works() {
             // コントラクトのインスタンス化
@@ -314,12 +315,9 @@ mod astar_sns_contract {
                 "https://fasdfgeg...".to_string(),
             );
 
-            // 全体の投稿情報を確認
+            // 指定した数だけ全体の投稿から情報が取得できていることを確認
             let post_list: Vec<Post> = astar_sns_contract.get_general_post(1);
-            debug_println!("General post get test\n",);
-            for n in 0..(post_list.len()) {
-                debug_println!("{:?}\n", post_list[n]);
-            }
+            assert_eq!(post_list.len(), 5);
         }
 
         #[ink::test]
@@ -389,23 +387,16 @@ mod astar_sns_contract {
                 "https://fasdfgeg...".to_string(),
             );
 
-            // それぞれのアカウントの個別の投稿取得を確認
+            // それぞれのアカウントの個別の投稿を指定数取得できているかを確認
             let alice_post_list: Vec<Post> =
                 astar_sns_contract.get_individual_post(1, alice_account_id);
             let bob_post_list: Vec<Post> =
                 astar_sns_contract.get_individual_post(1, bob_account_id);
             let charlie_post_list: Vec<Post> =
                 astar_sns_contract.get_individual_post(1, charlie_account_id);
-            debug_println!("Individual post get test");
-            for n in 0..(alice_post_list.len()) {
-                debug_println!("{:?}", alice_post_list[n]);
-            }
-            for n in 0..(bob_post_list.len()) {
-                debug_println!("{:?}", bob_post_list[n]);
-            }
-            for n in 0..(charlie_post_list.len()) {
-                debug_println!("{:?}", charlie_post_list[n]);
-            }
+            assert_eq!(alice_post_list.len(), 2);
+            assert_eq!(bob_post_list.len(), 2);
+            assert_eq!(charlie_post_list.len(), 2);
         }
 
         #[ink::test]
@@ -443,22 +434,16 @@ mod astar_sns_contract {
             );
 
             // 指定した投稿にいいねができているいるか確認
+            // 他の投稿にいいねがされた場合は、いいねの数が増えないことを確認
             astar_sns_contract.add_likes(0);
-            debug_println!(
-                "Number of likes: {}",
-                astar_sns_contract.post_map.get(&0).unwrap().num_of_likes
-            );
+            assert_eq!(astar_sns_contract.post_map.get(&0).unwrap().num_of_likes, 1);
             astar_sns_contract.add_likes(0);
             astar_sns_contract.add_likes(1);
             astar_sns_contract.add_likes(2);
-            debug_println!(
-                "Number of likes: {}",
-                astar_sns_contract.post_map.get(&0).unwrap().num_of_likes
-            );
+            assert_eq!(astar_sns_contract.post_map.get(&0).unwrap().num_of_likes, 2);
 
             // 指定したユーザーの投稿に対するいいねの総数取得を確認
-            let total_likes = astar_sns_contract.get_total_likes(alice_account_id);
-            debug_println!("alice total num of likes: {}", total_likes)
+            assert_eq!(astar_sns_contract.get_total_likes(alice_account_id), 4);
         }
 
         #[ink::test]
@@ -482,59 +467,44 @@ mod astar_sns_contract {
             astar_sns_contract.create_profile();
 
             // メッセージリストのidカウンターの確認
-            debug_println!(
-                "message_list_map_counter: {}",
-                astar_sns_contract.message_list_map_counter
-            );
-
-            // フォロー機能の確認
-            ink_env::test::set_caller::<ink_env::DefaultEnvironment>(alice_account_id);
-            astar_sns_contract.follow(bob_account_id);
-            debug_println!(
-                "following_list: {:?}\nfollower_list: {:?}",
-                astar_sns_contract.get_following_list(alice_account_id),
-                astar_sns_contract.get_follower_list(bob_account_id)
-            );
-
-            // メッセージリストのidカウンターの確認
-            debug_println!(
-                "message_list_map_id: {}",
-                astar_sns_contract.message_list_map_counter
-            );
-
-            // フォロー機能の確認(bob -> alice)
-            ink_env::test::set_caller::<ink_env::DefaultEnvironment>(bob_account_id);
-            astar_sns_contract.follow(alice_account_id);
-            // メッセージリストのidカウンターの確認
-            debug_println!(
-                "message_list_map_counter: {}",
-                astar_sns_contract.message_list_map_counter
-            );
+            assert_eq!(astar_sns_contract.message_list_map_counter, 0);
 
             // フォロー機能の確認(alice -> bob)
             ink_env::test::set_caller::<ink_env::DefaultEnvironment>(alice_account_id);
             astar_sns_contract.follow(bob_account_id);
+            assert_eq!(
+                astar_sns_contract.get_following_list(alice_account_id),
+                vec![bob_account_id]
+            );
+            assert_eq!(
+                astar_sns_contract.get_follower_list(bob_account_id),
+                vec![alice_account_id]
+            );
+
+            // メッセージリストのidカウンターの確認
+            assert_eq!(astar_sns_contract.message_list_map_counter, 1);
+
+            // フォロー機能の確認(bob -> alice)
+            ink_env::test::set_caller::<ink_env::DefaultEnvironment>(bob_account_id);
+            astar_sns_contract.follow(alice_account_id);
+
             // メッセージリストのidカウンターの確認
             // フォローバックではメッセージリストidが増えないことを確認
-            debug_println!(
-                "message_list_map_counter: {}",
-                astar_sns_contract.message_list_map_counter
-            );
+            assert_eq!(astar_sns_contract.message_list_map_counter, 1);
 
-            // フォロー機能の確認(alice -> charlie)
+            // フォロー機能の確認(alice -> bob)
             ink_env::test::set_caller::<ink_env::DefaultEnvironment>(alice_account_id);
-            astar_sns_contract.follow(charlie_account_id);
-            debug_println!(
-                "following_list: {:?}\nfollower_list: {:?}",
-                astar_sns_contract.get_following_list(alice_account_id),
-                astar_sns_contract.get_follower_list(charlie_account_id)
-            );
+            astar_sns_contract.follow(bob_account_id);
 
             // メッセージリストのidカウンターの確認
-            debug_println!(
-                "message_list_map_counter: {}",
-                astar_sns_contract.message_list_map_counter
-            );
+            // フォローバックではメッセージリストidが増えないことを確認
+            assert_eq!(astar_sns_contract.message_list_map_counter, 1);
+
+            // フォロー(alice -> charlie)
+            // メッセージリストのidカウンターの確認
+            ink_env::test::set_caller::<ink_env::DefaultEnvironment>(alice_account_id);
+            astar_sns_contract.follow(charlie_account_id);
+            assert_eq!(astar_sns_contract.message_list_map_counter, 2);
         }
 
         #[ink::test]
@@ -572,7 +542,7 @@ mod astar_sns_contract {
             astar_sns_contract.follow(bob_account_id);
             astar_sns_contract.follow(charlie_account_id);
 
-            // メッセージ送信
+            // Aliceからのメッセージを5つ送信
             ink_env::test::set_caller::<ink_env::DefaultEnvironment>(alice_account_id);
             astar_sns_contract.send_message(
                 "Sorry Bro, I can't go today.".to_string(),
@@ -599,30 +569,15 @@ mod astar_sns_contract {
                 0,
                 "12:37".to_string(),
             );
-            ink_env::test::set_caller::<ink_env::DefaultEnvironment>(bob_account_id);
-            astar_sns_contract.send_message(
-                "I'm so looking forward that!".to_string(),
-                0,
-                "12:38".to_string(),
-            );
-            astar_sns_contract.send_message(
-                "Hey bro! Tomorrow I and Bob go to gym. Don't you join us?".to_string(),
-                1,
-                "12:34".to_string(),
-            );
 
             // メッセージリストと最後のメッセージの取得を確認
-            debug_println!(
-                "message_list_alice_bob: {:?}\n",
-                astar_sns_contract.get_message_list(0, 1)
+            assert_eq!(
+                astar_sns_contract.get_message_list(0, 1)[0].message,
+                "Sorry Bro, I can't go today."
             );
-            debug_println!(
-                "last_message_alice_bob: {:?}\n",
-                astar_sns_contract.get_last_message(0)
-            );
-            debug_println!(
-                "message_list_alice_charlie: {:?}",
-                astar_sns_contract.get_message_list(1, 1)
+            assert_eq!(
+                astar_sns_contract.get_message_list(0, 1)[4].message,
+                astar_sns_contract.get_last_message(0).message
             );
         }
 
@@ -652,9 +607,10 @@ mod astar_sns_contract {
             let alice_asset = astar_sns_contract.balance_of(alice_account_id);
             let bob_asset = astar_sns_contract.balance_of(bob_account_id);
             let charlie_asset = astar_sns_contract.balance_of(charlie_account_id);
-            debug_println!("alice_asset:{}", alice_asset);
-            debug_println!("bob_asset:{}", bob_asset);
-            debug_println!("charlie_asset:{}", charlie_asset);
+
+            assert_eq!(alice_asset, 50);
+            assert_eq!(bob_asset, 200);
+            assert_eq!(charlie_asset, 50);
         }
     }
 }
