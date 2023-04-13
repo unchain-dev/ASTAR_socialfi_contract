@@ -4,5 +4,8 @@ node_modules
 dist
 typechain-types
 coverage*
+.next
+
+target
 
 package.json

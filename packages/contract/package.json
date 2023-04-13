@@ -4,6 +4,8 @@
   "description": "contract directory",
   "private": true,
   "scripts": {
-    "start": "./astar-collator --dev"
+    "start": "./astar-collator --dev",
+    "build": "cargo +nightly-2022-08-15 contract build",
+    "test": "cargo +nightly-2022-08-15 contract test"
   }
 }

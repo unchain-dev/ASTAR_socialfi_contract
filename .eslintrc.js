@@ -6,16 +6,12 @@ module.exports = {
     node: true,
   },
   plugins: ['@typescript-eslint'],
-  extends: ['standard', 'prettier', 'plugin:node/recommended'],
+  extends: ['standard', 'plugin:node/recommended', 'prettier'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 12,
   },
   rules: {
-    'node/no-unsupported-features/es-syntax': [
-      'error',
-      { ignores: ['modules'] },
-    ],
     'node/no-unpublished-require': ['warn'],
     'node/no-unpublished-import': ['warn'],
     'node/no-missing-import': ['warn'],
