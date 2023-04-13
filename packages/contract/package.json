@@ -6,6 +6,6 @@
   "scripts": {
     "start": "./astar-collator --dev",
     "build": "cargo +nightly-2022-08-15 build",
-    "test": "cargo +nightly-2022-08-15 test"
+    "test": "cargo test"
   }
 }
