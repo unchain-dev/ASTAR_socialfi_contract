@@ -43,9 +43,9 @@ jobs:
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-      - name: install_rust
-      - run: curl --proto '=https' --tlsv1.2 -sSf `https://sh.rustup.rs` | sh
-      - name: install_rust_nightly
-      - run: rustup toolchain install nightly-2022-08-15
+      - name: Install rust
+        run: curl --proto '=https' --tlsv1.2 -sSf `https://sh.rustup.rs` | sh
+      - name: Update rust nightly
+        run: rustup update && rustup override set nightly-2023-05-25 && rustup update nightly-2023-05-25
       - name: integration_test
         run: yarn workspace contract test
